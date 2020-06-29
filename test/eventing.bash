@@ -18,14 +18,13 @@ function run_knative_eventing_tests {
   (
   local exitstatus=0
   logger.info 'Running eventing tests'
-
+  
   checkout_knative_eventing
-
+  
   go_test_e2e -timeout=90m -parallel=1 ./test/e2e \
     --kubeconfig "$KUBECONFIG" \
-    --dockerrepo 'quay.io/openshift-knative' \
+    --dockerrepo 'image-registry.openshift-image-registry.svc:5000/local-images' \
     || exitstatus=$? && true
-
   print_test_result ${exitstatus}
 
   remove_temporary_gopath
